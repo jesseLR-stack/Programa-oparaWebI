@@ -1,0 +1,7 @@
+services:
+  app:
+    build: ./loja-web-sessao-starter
+    container_name: loja-web-sessao
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
