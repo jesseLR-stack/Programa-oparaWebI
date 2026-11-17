@@ -42,7 +42,7 @@ try-with-resources (fecha conexões automaticamente).
 | GET/POST | `/login` | Formulário / autenticação |
 | GET | `/logout` | Encerra a sessão |
 
-Usuário de teste: **cristiano@email.com** / senha **123456**.
+Usuário de teste: **jesse@email.com** / senha **1234567**.
 
 ## Como executar
 

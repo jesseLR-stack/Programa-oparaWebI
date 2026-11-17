@@ -37,10 +37,11 @@ ON CONFLICT (id) DO NOTHING;
 
 SELECT setval('produto_id_seq', (SELECT MAX(id) FROM produto));
 
--- Senha "123456" armazenada como hash SHA-256
+-- Senha "1234567" armazenada como hash SHA-256
 INSERT INTO usuario (id, nome, email, senha_hash) VALUES
-    (1, 'Cristiano Xavier', 'cristiano@email.com',
-     '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92')
-ON CONFLICT (id) DO NOTHING;
+    (1, 'Jesse', 'jesse@email.com',
+     '8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414')
+ON CONFLICT (id) DO UPDATE SET
+    nome = EXCLUDED.nome, email = EXCLUDED.email, senha_hash = EXCLUDED.senha_hash;
 
 SELECT setval('usuario_id_seq', (SELECT MAX(id) FROM usuario));
