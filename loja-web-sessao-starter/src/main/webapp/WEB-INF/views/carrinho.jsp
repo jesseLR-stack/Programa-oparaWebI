@@ -39,7 +39,14 @@
     <div class="titulo-pagina">
         <div>
             <h2>Meu carrinho</h2>
-            <p>Seu carrinho fica salvo na sessão atual do navegador.</p>
+            <c:choose>
+                <c:when test="${not empty sessionScope.usuarioLogado}">
+                    <p>Seu carrinho está salvo no banco de dados e fica disponível sempre que você entrar.</p>
+                </c:when>
+                <c:otherwise>
+                    <p>Seu carrinho fica na sessão atual. Entre na sua conta para salvá-lo no banco de dados.</p>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 

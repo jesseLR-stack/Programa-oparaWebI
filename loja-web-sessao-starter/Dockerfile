@@ -10,6 +10,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Etapa 2: Servidor Apache Tomcat 9 (Java EE 8 / javax.servlet)
+# (os dados de conexão com o banco vêm das variáveis DB_URL, DB_USER e DB_PASSWORD)
 FROM tomcat:9.0-jdk11-corretto
 
 # Limpa aplicações padrão do Tomcat para evitar conflitos

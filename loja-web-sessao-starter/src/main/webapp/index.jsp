@@ -39,7 +39,7 @@
         <div class="container">
             <span class="badge">Projeto Java Web</span>
             <h2>Sua loja de equipamentos de informática</h2>
-            <p>Projeto didático para praticar HTTP, Servlets, HttpSession, JSP, EL/JSTL e organização de endpoints.</p>
+            <p>Projeto didático para praticar HTTP, Servlets, HttpSession, JSP, EL/JSTL, JDBC e banco de dados PostgreSQL.</p>
             <div class="hero-acoes">
                 <a class="btn btn-primario" href="${pageContext.request.contextPath}/produtos">Ver produtos</a>
                 <a class="btn btn-secundario" href="${pageContext.request.contextPath}/carrinho">Meu carrinho</a>
@@ -57,7 +57,7 @@
             </article>
             <article class="card">
                 <h3>Carrinho</h3>
-                <p>Adicione produtos e mantenha suas escolhas durante a sessão.</p>
+                <p>Adicione produtos; com login, o carrinho fica salvo no banco de dados.</p>
                 <a href="${pageContext.request.contextPath}/carrinho">Ver carrinho →</a>
             </article>
             <article class="card">

@@ -1,31 +1,22 @@
 package br.edu.ifto.web.servlet;
 
 import br.edu.ifto.web.model.Carrinho;
+import br.edu.ifto.web.service.CarrinhoService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/carrinho")
 public class CarrinhoServlet extends HttpServlet {
-
-    private Carrinho obterCarrinho(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
-        if (carrinho == null) {
-            carrinho = new Carrinho();
-            session.setAttribute("carrinho", carrinho);
-        }
-        return carrinho;
-    }
+    private final CarrinhoService carrinhoService = new CarrinhoService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Carrinho carrinho = obterCarrinho(request);
+        Carrinho carrinho = carrinhoService.obter(request);
         request.setAttribute("itens", carrinho.getItens());
         request.setAttribute("quantidadeTotal", carrinho.getQuantidadeTotal());
         request.setAttribute("valorTotal", carrinho.getValorTotal());
@@ -35,10 +26,7 @@ public class CarrinhoServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.removeAttribute("carrinho");
-        }
+        carrinhoService.limpar(request);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 }

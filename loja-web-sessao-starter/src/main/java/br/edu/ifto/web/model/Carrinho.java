@@ -10,11 +10,17 @@ public class Carrinho {
     public List<ItemCarrinho> getItens() { return itens; }
 
     public void adicionar(Produto produto) {
+        adicionar(produto, 1);
+    }
+
+    public void adicionar(Produto produto, int quantidade) {
         Optional<ItemCarrinho> existente = itens.stream()
             .filter(item -> item.getProduto().getId() == produto.getId()).findFirst();
-        if (existente.isPresent()) existente.get().incrementar();
-        else itens.add(new ItemCarrinho(produto, 1));
+        if (existente.isPresent()) existente.get().incrementar(quantidade);
+        else itens.add(new ItemCarrinho(produto, quantidade));
     }
+
+    public boolean isVazio() { return itens.isEmpty(); }
 
     public void remover(int id) {
         itens.removeIf(item -> item.getProduto().getId() == id);

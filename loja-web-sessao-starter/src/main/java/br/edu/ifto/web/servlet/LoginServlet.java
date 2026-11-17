@@ -1,7 +1,8 @@
 package br.edu.ifto.web.servlet;
 
-import br.edu.ifto.web.dao.UsuarioMemoriaRepository;
+import br.edu.ifto.web.dao.UsuarioDAO;
 import br.edu.ifto.web.model.Usuario;
+import br.edu.ifto.web.service.CarrinhoService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +14,8 @@ import java.util.Optional;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private final UsuarioMemoriaRepository repository = new UsuarioMemoriaRepository();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final CarrinhoService carrinhoService = new CarrinhoService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,11 +30,14 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
 
-        Optional<Usuario> usuario = repository.autenticar(email, senha);
+        Optional<Usuario> usuario = usuarioDAO.autenticar(email, senha);
 
         if (usuario.isPresent()) {
             HttpSession session = request.getSession();
-            session.setAttribute("usuarioLogado", usuario.get());
+            // Evita fixação de sessão: gera um novo id após autenticar
+            request.changeSessionId();
+            carrinhoService.transferirParaUsuario(session, usuario.get());
+            session.setAttribute(CarrinhoService.ATRIBUTO_USUARIO, usuario.get());
             response.sendRedirect(request.getContextPath() + "/");
         } else {
             request.setAttribute("erro", "E-mail ou senha inválida.");
