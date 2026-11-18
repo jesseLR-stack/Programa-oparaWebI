@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: loja-web-db
+    environment:
+      POSTGRES_DB: loja
+      POSTGRES_USER: loja
+      POSTGRES_PASSWORD: loja
+    ports:
+      - "5432:5432"
+    volumes:
+      - loja-dados:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U loja -d loja"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  app:
+    build: ./loja-web-sessao-starter
+    container_name: loja-web-sessao
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/loja
+      DB_USER: loja
+      DB_PASSWORD: loja
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  loja-dados:
